@@ -1,0 +1,7 @@
+---
+title: "Modules I've Taken!"
+format: html
+editor: visual
+---
+
+I've taken several courses over my past year and a half in NUS. These include:

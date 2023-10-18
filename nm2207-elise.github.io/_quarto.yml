@@ -1,0 +1,23 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "mjswelise"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Main
+      - href: subsfolders.qmd
+        text: Past Submissions
+    right:
+      - href: about.qmd
+        text: About
+
+format:
+  html:
+    theme: quartz
+    css: styles.css
+    toc: true
+
+editor: visual
