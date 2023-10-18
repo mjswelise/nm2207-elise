@@ -1,0 +1,51 @@
+---
+title: "Week-1 to Week-9 Submissions"
+---
+
+In accordance with the project submission guidelines for <b>Week-9</b>, please find the links to the various folders of previous submissions, hosted on <b>GitHub</b>, below.
+
+You may also find the link to the full submission folder i.e. GitHub branch [here](https://github.com/mjswelise/nm2207-elise/tree/Submissions-(Published)).
+
+## Week-1
+
+[Challenge-1](https://github.com/mjswelise/nm2207-elise/blob/Week-1-(Published)/Challenge-1_Safari.pdf)
+
+## Week-2
+
+[Challenge-2](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Challenge-2.pdf)
+
+## Week-3
+
+[Code-Along-3](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Week-3_Code-Along.pdf)
+
+[Challenge-3](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Challenge-3.pdf)
+
+## Week-4
+
+[Code-Along-4](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Week-4:-Code-along.pdf)
+
+[Challenge-4](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Challenge-4.pdf)
+
+## Week-5
+
+[Code-Along-5](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Week-5-Code-Along.pdf)
+
+[Challenge-5](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Challenge-5.pdf)
+
+## Week-6
+
+[Code-Along-6](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Week-6-Code-along-Elise.pdf)
+
+[Challenge-6](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Challenge-6-Elise.pdf)
+
+## Week-7
+
+Combined: [Code-Along-7, Challenge-7](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Challenge-7_PDF.pdf)
+
+## Week-8
+
+Combined: [Code-Along-8, Challenge-8](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Code-Along-Challenge-8.pdf)
+
+## Week-9
+
+Combined: [Code-Along-9, Challenge-9](https://github.com/mjswelise/nm2207-elise/blob/Submissions-(Published)/Week-9.pdf)
