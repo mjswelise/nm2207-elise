@@ -1,6 +1,0 @@
----
-title: "Data Story Final Project - Elise"
-page-layout: full
----
-
-Hi! Welcome to Elise's website. This page remains a work in progress.
