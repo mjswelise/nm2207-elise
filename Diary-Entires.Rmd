@@ -1,0 +1,76 @@
+---
+title: "Final Project (Week-9)"
+author: "Elise Wong"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Week-9: Webpage, Diary Entry
+<p>
+<div class="warning" style='padding:1em; background-color:#ac92eb; color:#69337A'>
+<span>
+<p style='margin-top:1em; text-align:center'>
+<p style='margin-left:1em;'>
+For my data story, I have chosen to understand how data analysts categorise 
+songs on <strong>Spotify</strong>.
+
+I have obtained the <strong>'Spotify Songs'</strong> data-set from the <strong>#TidyTuesday project</strong>, hosted on GitHub.
+<p style='margin-bottom:1em; margin-right:1em; text-align:right; font-family:Georgia'>
+</p></span>
+</div>
+<p>
+A <strong>sample</strong> of the aforementioned data-set is as follows:
+
+```{r, eval = TRUE, echo = TRUE}
+library(tidytuesdayR)
+library(tidyverse)
+
+spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
+
+tuesdata <- tidytuesdayR::tt_load('2020-01-21') 
+tuesdata <- tidytuesdayR::tt_load(2020, week = 4)
+
+spotify_songs <- tuesdata$spotify_songs
+```
+
+```{r, eval = TRUE, echo = TRUE}
+head(spotify_songs)
+```
+
+```{r, eval = TRUE, echo = TRUE}
+spotify_songs[order(spotify_songs$track_album_release_date),]
+# The first song recorded in this data set was released in 1957.
+# The newest song recorded in this data set was released in 2019, as mentioned on GitHub.
+```
+
+## Week-10: Diary Entry
+
+### 1. What is the question that you are going to answer?
+How have the methods of categorising music genres on Spotify evolved in response to songs released from 1957 to 2019?
+
+### 2. Why is this an important question?
+According to the Recording Industry Association of America (2022), revenues from streaming music grew 26% to $5.9 billion in the first half of 2021, accounting for 84% of total music revenues for the period and a 4% climb from 2019 levels. Spotify is a platform, in particular, has revolutionised music consumption methods - it currently is the "world’s biggest music streaming provider in terms of global paid-for subscriptions" (Music Business Worldwide, 2023), and is projected to retain its dominance "throughout the rest of the 2020s" (Goldman Sachs, 2023). Furthermore, there has been a marked shift from "hard genre categorisation" to "mood-based categorisation" on digital music platforms - this sense of multi-formatting is used to popularising new music through means of exposure (The Guardian, 2017).
+
+As such, examining the evolution of music genre categorisation on Spotify in response to songs released, and how exactly that takes place, is important as it elucidates the dynamic interplay of change and continuity in the music industry, which can also guide business strategies as well as offer us valuable insights into the ever-evolving music landscape within our increasingly digitalised society.
+
+### 3. Which rows and columns of the dataset will be used to answer this question?
+
+Variables that will be assessed include: track_popularity, playlist_genre, playlist_subgenre, acousticness, liveness, speechiness, instrumentalness, energy, loudness, danceability, valence, tempo, key.
+
+<strong>Bibliography</strong>
+
+Goldman Sachs. (2023). Music In The Air. https://www.goldmansachs.com/intelligence/page/music-streaming-services-are-on-the-cusp-of-major-structural-change.html 
+
+Music Business Worldwide. (2023).WHY GOLDMAN SACHS BELIEVES THAT SPOTIFY WILL REMAIN THE WORLD’S DOMINANT MUSIC STREAMING SERVICE IN 2030. https://www.musicbusinessworldwide.com/why-goldman-sachs-believes-that-spotify-will-remain-the-worlds-dominant-music-streaming-service-in-2030/
+
+Recording Industry Association of America. (2022). Mid-Year 2021 RIAA Revenue Statistics. https://www.riaa.com/wp-content/uploads/2021/09/Mid-Year-2021-RIAA-Music-Revenue-Report.pdf 
+
+The Guardian. (2017). 'They could destroy the album': how Spotify's playlists have changed music for ever. https://www.theguardian.com/music/2017/aug/17/they-could-destroy-the-album-how-spotify-playlists-have-changed-music-for-ever 
+
+Thank you!
