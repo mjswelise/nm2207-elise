@@ -1,0 +1,46 @@
+---
+title: "An Analysis of Music Genre Evolution on Spotify (1957-2020)"
+format: html
+editor: visual
+---
+
+> **"Music expresses that which cannot be put into words and that which cannot remain silent**." - Victor Hugo
+
+## Introduction
+
+In the ever-evolving world of music, I embarked on a captivating journey to explore the intricate tapestry of Spotify's genre classification system. Spanning six decades from 1957 to 2020, this musical time machine allowed me to witness how music genres have not only shaped themselves but have been profoundly influenced by changing industry dynamics and listener preferences.
+
+This exploration became all the more pertinent in the face of a rapidly transforming music landscape. According to the Recording Industry Association of America (2022), the revenues from streaming music have surged, accounting for a staggering 84% of total music revenues in the first half of 2021. Spotify, in particular, has spearheaded this revolution and emerged as the "world's biggest music streaming provider in terms of global paid-for subscriptions" (Music Business Worldwide, 2023), with projections indicating continued dominance throughout the 2020s (Goldman Sachs, 2023). Concurrently, digital music platforms have ushered in a shift from rigid "hard genre categorisation" to a more fluid "mood-based categorisation" approach, a strategy aimed at promoting new music through effective exposure (The Guardian, 2017).
+
+As such, the examination of the evolution of music genre categorisation on Spotify in response to songs released is not merely an academic exercise; it is a lens through which we gain insights into the dynamic interplay of change and continuity within the music industry. This understanding can guide business strategies and offer valuable insights into the ever-evolving music landscape, especially within our increasingly digitalised society.
+
+## 'Tidying' Data
+
+Especially formatting release dates. Boxplots - for outliers.
+
+## Defining Genre
+
+Histograms, hexbins/density plots - preliminary relationships, correlations re: use of specific audio features among themselves and in different genres.\
+Decision trees to define the 'key' audio features of each genre.
+
+## Creating Structured Data Sets
+
+Create structured data sets, grouping songs by year. Calculate defined genre evolution metrics for each year.
+
+## Temporal Analysis
+
+Time series plots to show evolution, examine trends in use of specific audio features within different genres - change and continuity. Addition of Shiny UI with findings to be toggle-able for users.
+
+## Concluding Remarks
+
+TBC!
+
+## References
+
+Goldman Sachs. (2023). *Music In The Air.* https://www.goldmansachs.com/intelligence/page/music-streaming-services-are-on-the-cusp-of-major-structural-change.html
+
+Music Business Worldwide. (2023). *WHY GOLDMAN SACHS BELIEVES THAT SPOTIFY WILL REMAIN THE WORLD'S DOMINANT MUSIC STREAMING SERVICE IN 2030.* https://www.musicbusinessworldwide.com/why-goldman-sachs-believes-that-spotify-will-remain-the-worlds-dominant-music-streaming-service-in-2030/
+
+Recording Industry Association of America. (2022). *Mid-Year 2021 RIAA Revenue Statistics.* https://www.riaa.com/wp-content/uploads/2021/09/Mid-Year-2021-RIAA-Music-Revenue-Report.pdf
+
+The Guardian. (2017). *'They could destroy the album': how Spotify's playlists have changed music for ever.* https://www.theguardian.com/music/2017/aug/17/they-could-destroy-the-album-how-spotify-playlists-have-changed-music-for-ever

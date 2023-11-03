@@ -1,7 +1,40 @@
 ---
-title: "Modules I've Taken!"
+title: "Current Module List"
 format: html
 editor: visual
 ---
 
 I've taken several courses over my past year and a half in NUS. These include:
+
+| Module Code | Module Name                                 | Grade |
+|-------------|---------------------------------------------|-------|
+| NM1101E     | Communications, New Media, and Society      | A+    |
+| NM2101      | Theories of Communications and New Media    | A     |
+| NM2103      | Quantitative Research Methods               | B+    |
+| NM2104      | Qualitative Communication Research Methods  | \-    |
+| NM2207      | Computational Media Literacy                | \-    |
+
+: *For Communications and New Media, as of AY23/24 Semester 1*
+
+| Module Code | Module Name                                    | Grade |
+|-------------|------------------------------------------------|-------|
+| HSA1000     | Asian Interconnections                         | A+    |
+| DTK1234     | Design Thinking                                | A+    |
+| FAS1101     | Writing Academically: Arts and Social Sciences | A-    |
+| HSH1000     | The Human Condition                            | A-    |
+| HSS1000     | Understanding Social Complexity                | CS    |
+| GEA1000     | Quantitative Reasoning with Data               | CS    |
+| HSI1000     | How Science Works, Why Science Works           | CS    |
+| HSI2013     | The Science of Music                           | \-    |
+
+: *For College of Humanities and Sciences, as of AY23/24 Semester 1*
+
+| Module Code | Module Name              | Grade |
+|-------------|--------------------------|-------|
+| SC1101E     | Making Sense of Society  | A-    |
+| MKT1705X    | Principles of Marketing  | CS    |
+| AN2204      | Media Anthropology       | \-    |
+| SC2220      | Gender Studies           | \-    |
+| MNO1706X    | Organisational Behaviour | \-    |
+
+: *For Miscellaneous Modules, as of AY23/24 Semester 1*

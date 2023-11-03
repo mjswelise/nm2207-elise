@@ -1,5 +1,5 @@
 ---
-title: "Data Story Final Project - Elise"
+title: "Home"
 page-layout: full
 ---
 

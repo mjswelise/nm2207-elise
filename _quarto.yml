@@ -7,10 +7,14 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Main
+        text: Home
+      - href: datastory.qmd
+        text: Data Story
       - href: subsfolders.qmd
         text: Past Submissions
     right:
+      - href: courses.qmd
+        text: Past Modules
       - href: about.qmd
         text: About
 
