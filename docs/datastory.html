@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -119,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#tidying-data" id="toc-tidying-data" class="nav-link" data-scroll-target="#tidying-data">‘Tidying’ Data</a></li>
   <li><a href="#defining-genre" id="toc-defining-genre" class="nav-link" data-scroll-target="#defining-genre">Defining Genre</a></li>
-  <li><a href="#creating-structured-data-sets" id="toc-creating-structured-data-sets" class="nav-link" data-scroll-target="#creating-structured-data-sets">Creating Structured Data Sets</a></li>
+  <li><a href="#test-the-predictive-algorithm" id="toc-test-the-predictive-algorithm" class="nav-link" data-scroll-target="#test-the-predictive-algorithm">Test the Predictive Algorithm</a></li>
   <li><a href="#temporal-analysis" id="toc-temporal-analysis" class="nav-link" data-scroll-target="#temporal-analysis">Temporal Analysis</a></li>
   <li><a href="#concluding-remarks" id="toc-concluding-remarks" class="nav-link" data-scroll-target="#concluding-remarks">Concluding Remarks</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -149,6 +212,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <p><strong>“Music expresses that which cannot be put into words and that which cannot remain silent</strong>.” - Victor Hugo</p>
 </blockquote>
+<p>Hi there, thanks for being on my website! I haven’t quite had the time to format everything (or, in other words, make everything look pretty) but this is the work I’ve done so far, and the visualisations I’ve attempted to produce. See you next week :-)</p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>In the ever-evolving world of music, I embarked on a captivating journey to explore the intricate tapestry of Spotify’s genre classification system. Spanning six decades from 1957 to 2020, this musical time machine allowed me to witness how music genres have not only shaped themselves but have been profoundly influenced by changing industry dynamics and listener preferences.</p>
@@ -157,16 +221,958 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="tidying-data" class="level2">
 <h2 class="anchored" data-anchor-id="tidying-data">‘Tidying’ Data</h2>
-<p>Especially formatting release dates. Boxplots - for outliers.</p>
+<p>Overview of the data-set:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># view of data set</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>spotify_songs <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"spotify_songs.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, to isolate the tracks, genres, and audio features, I created a new data-set for easy viewing. I also created a list of genres and the respective quantity of songs for each.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># view column names</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>column_names <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Variable =</span> <span class="fu">names</span>(spotify_songs))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(column_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   Variable
+1                  track_id
+2                track_name
+3              track_artist
+4          track_popularity
+5            track_album_id
+6          track_album_name
+7  track_album_release_date
+8             playlist_name
+9               playlist_id
+10           playlist_genre
+11        playlist_subgenre
+12             danceability
+13                   energy
+14                      key
+15                 loudness
+16                     mode
+17              speechiness
+18             acousticness
+19         instrumentalness
+20                 liveness
+21                  valence
+22                    tempo
+23              duration_ms</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># new dataset for variables</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>spotify_genres <span class="ot">&lt;-</span> spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(track_name, track_album_release_date, playlist_genre, playlist_subgenre)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># new dataset for features</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>audio_features <span class="ot">&lt;-</span> spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(track_name, track_album_release_date, danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, duration_ms)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># what are the individual genres</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>summary_genres <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">count</span>(playlist_genre)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>count <span class="ot">&lt;-</span> summary_genres <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>[Shiny UI WIP to represent the below data in Tabsets]</p>
+<p>Tab 1: Overall Popularity of Each Genre</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overall popularity of each genre</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_genres, <span class="fu">aes</span>(<span class="at">x =</span> playlist_genre, <span class="at">y =</span> n, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Popularity of Genres"</span>, <span class="at">x =</span> <span class="st">"Playlist Genre"</span>, <span class="at">y =</span> <span class="st">"Count (1956 - 2020)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="datastory_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Counted the quantity and associations of songs with respective subgenres:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># isolate subgenres for edm</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>filtered_edm <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_album_release_date, playlist_genre, playlist_subgenre) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(playlist_genre <span class="sc">==</span> <span class="st">"edm"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>edm_subg_count <span class="ot">&lt;-</span> <span class="fu">table</span>(filtered_edm<span class="sc">$</span>playlist_subgenre)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>edm_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">playlist_subgenre =</span> <span class="fu">names</span>(edm_subg_count), <span class="at">Count =</span> <span class="fu">as.numeric</span>(edm_subg_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">playlist_genre =</span> <span class="st">"edm"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># isolate subgenres for latin</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>filtered_latin <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_album_release_date, playlist_genre, playlist_subgenre) <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(playlist_genre <span class="sc">==</span> <span class="st">"latin"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>latin_subg_count <span class="ot">&lt;-</span> <span class="fu">table</span>(filtered_latin<span class="sc">$</span>playlist_subgenre)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>latin_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">playlist_subgenre =</span> <span class="fu">names</span>(latin_subg_count), <span class="at">Count =</span> <span class="fu">as.numeric</span>(latin_subg_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">playlist_genre =</span> <span class="st">"latin"</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># isolate subgenres for pop</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>filtered_pop <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_album_release_date, playlist_genre, playlist_subgenre) <span class="sc">%&gt;%</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(playlist_genre <span class="sc">==</span> <span class="st">"pop"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>pop_subg_count <span class="ot">&lt;-</span> <span class="fu">table</span>(filtered_pop<span class="sc">$</span>playlist_subgenre)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>pop_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">playlist_subgenre =</span> <span class="fu">names</span>(pop_subg_count), <span class="at">Count =</span> <span class="fu">as.numeric</span>(pop_subg_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">playlist_genre =</span> <span class="st">"pop"</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># isolate subgenres for r&amp;b</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>filtered_rnb <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_album_release_date, playlist_genre, playlist_subgenre) <span class="sc">%&gt;%</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(playlist_genre <span class="sc">==</span> <span class="st">"r&amp;b"</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>rnb_subg_count <span class="ot">&lt;-</span> <span class="fu">table</span>(filtered_rnb<span class="sc">$</span>playlist_subgenre)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>rnb_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">playlist_subgenre =</span> <span class="fu">names</span>(rnb_subg_count), <span class="at">Count =</span> <span class="fu">as.numeric</span>(rnb_subg_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">playlist_genre =</span> <span class="st">"rnb"</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co"># isolate subgenres for rap</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>filtered_rap <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_album_release_date, playlist_genre, playlist_subgenre) <span class="sc">%&gt;%</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(playlist_genre <span class="sc">==</span> <span class="st">"rap"</span>)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>rap_subg_count <span class="ot">&lt;-</span> <span class="fu">table</span>(filtered_rap<span class="sc">$</span>playlist_subgenre)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>rap_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">playlist_subgenre =</span> <span class="fu">names</span>(rap_subg_count), <span class="at">Count =</span> <span class="fu">as.numeric</span>(rap_subg_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">playlist_genre =</span> <span class="st">"rap"</span>)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co"># isolate subgenres for rock</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>filtered_rock <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_album_release_date, playlist_genre, playlist_subgenre) <span class="sc">%&gt;%</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(playlist_genre <span class="sc">==</span> <span class="st">"rock"</span>)</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>rock_subg_count <span class="ot">&lt;-</span> <span class="fu">table</span>(filtered_rock<span class="sc">$</span>playlist_subgenre)</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>rock_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">playlist_subgenre =</span> <span class="fu">names</span>(rock_subg_count), <span class="at">Count =</span> <span class="fu">as.numeric</span>(rock_subg_count)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">playlist_genre =</span> <span class="st">"rock"</span>)</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a><span class="co"># combine the datasets</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>subgenre_count <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(edm_summary, latin_summary, pop_summary, rnb_summary, rap_summary, rock_summary)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>subgenre_count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           playlist_subgenre Count playlist_genre
+1                   big room  1206            edm
+2              electro house  1511            edm
+3                    pop edm  1517            edm
+4  progressive electro house  1809            edm
+5              latin hip hop  1656          latin
+6                  latin pop  1262          latin
+7                  reggaeton   949          latin
+8                   tropical  1288          latin
+9                  dance pop  1298            pop
+10                electropop  1408            pop
+11           indie poptimism  1672            pop
+12             post-teen pop  1129            pop
+13                   hip pop  1256            rnb
+14                  neo soul  1637            rnb
+15            new jack swing  1133            rnb
+16        urban contemporary  1405            rnb
+17              gangster rap  1458            rap
+18                   hip hop  1322            rap
+19          southern hip hop  1675            rap
+20                      trap  1291            rap
+21                album rock  1065           rock
+22              classic rock  1296           rock
+23                 hard rock  1485           rock
+24            permanent wave  1105           rock</code></pre>
+</div>
+</div>
+<p>Tab 2: Popularity of Subgenres within Individual Genres</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>edm <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(edm_summary, <span class="fu">aes</span>(<span class="at">x =</span> playlist_subgenre, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"EDM"</span>, <span class="at">x =</span> <span class="st">"Subgenre"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>latin <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(latin_summary, <span class="fu">aes</span>(<span class="at">x =</span> playlist_subgenre, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Latin"</span>, <span class="at">x =</span> <span class="st">"Subgenre"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pop_summary, <span class="fu">aes</span>(<span class="at">x =</span> playlist_subgenre, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Pop"</span>, <span class="at">x =</span> <span class="st">"Subgenre"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>rnb <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(rnb_summary, <span class="fu">aes</span>(<span class="at">x =</span> playlist_subgenre, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"R&amp;B"</span>, <span class="at">x =</span> <span class="st">"Subgenre"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>rap <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(rap_summary, <span class="fu">aes</span>(<span class="at">x =</span> playlist_subgenre, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Rap"</span>, <span class="at">x =</span> <span class="st">"Subgenre"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>rock <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(rock_summary, <span class="fu">aes</span>(<span class="at">x =</span> playlist_subgenre, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Rock"</span>, <span class="at">x =</span> <span class="st">"Subgenre"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>edm <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)),</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>latin <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)),</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>pop <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>rnb <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)),</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>rap <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)),</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>rock <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)),</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="at">align =</span> <span class="st">"v"</span>, <span class="at">axis =</span> <span class="st">"lr"</span>, </span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="datastory_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
 </section>
 <section id="defining-genre" class="level2">
 <h2 class="anchored" data-anchor-id="defining-genre">Defining Genre</h2>
 <p>Histograms, hexbins/density plots - preliminary relationships, correlations re: use of specific audio features among themselves and in different genres.<br>
 Decision trees to define the ‘key’ audio features of each genre.</p>
+<p>Condensing the data-sets into ‘by year’ from YYYY-MM-DD.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>spotify_genres_byyear <span class="ot">&lt;-</span> spotify_genres <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">track_album_release_date =</span> <span class="fu">ymd</span>(track_album_release_date)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(track_album_release_date)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_name, track_album_release_date, playlist_genre, playlist_subgenre, year) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `track_album_release_date = ymd(track_album_release_date)`.
+Caused by warning:
+!  1886 failed to parse.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>most_byyear <span class="ot">&lt;-</span> <span class="fu">head</span>(spotify_genres_byyear, <span class="at">n =</span> <span class="dv">30947</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>byyear1 <span class="ot">&lt;-</span> most_byyear <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(track_name, playlist_genre, playlist_subgenre, year)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>year_only <span class="ot">&lt;-</span> <span class="fu">tail</span>(spotify_genres_byyear, <span class="at">n =</span> <span class="dv">1885</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>byyear2 <span class="ot">&lt;-</span> year_only <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">select</span>(track_name, playlist_genre, playlist_subgenre, track_album_release_date) <span class="sc">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rename</span>(<span class="at">year =</span> track_album_release_date)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>final_byyear <span class="ot">&lt;-</span> <span class="fu">rbind</span>(byyear1, byyear2) <span class="sc">%&gt;%</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                <span class="fu">arrange</span>(year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Filtered the data to not include songs before 1966 to have a substantial sample size/population per year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># split the datasets by year</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>yearly_datasets <span class="ot">&lt;-</span> final_byyear <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_split</span>(year)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>dataset_names <span class="ot">&lt;-</span> <span class="fu">unique</span>(final_byyear<span class="sc">$</span>year)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(yearly_datasets)) {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"spotify_dataset_"</span>, dataset_names[i]), yearly_datasets[[i]])</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># hence, may need to eliminate datasets before 1966 - minimum sample size as a population size of 30.</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>cleaned_datasets <span class="ot">&lt;-</span> <span class="fu">tail</span>(final_byyear, <span class="at">n =</span> <span class="dv">32793</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Histogram created to determine the density of audio features by genre, likely will turn into interactive Shiny UI.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># density of audio features by genre, probably change this to shiny</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>audio_features <span class="ot">&lt;-</span> <span class="fu">names</span>(spotify_songs)[<span class="fu">c</span>(<span class="dv">12</span><span class="sc">:</span><span class="dv">23</span>)]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">'playlist_genre'</span>, audio_features)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> audio_features) <span class="sc">%&gt;%</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">fill =</span> playlist_genre), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">bins =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">scales =</span> <span class="st">'free'</span>) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Histogram - Audio Features by Genre'</span>, <span class="at">y =</span> <span class="st">'Density'</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
+ℹ Please use `all_of()` or `any_of()` instead.
+  # Was:
+  data %&gt;% select(audio_features)
+
+  # Now:
+  data %&gt;% select(all_of(audio_features))
+
+See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="datastory_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>Found the correlation among individual audio features, as well as among individual genres as well. Tabsets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation between audio features</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(audio_features) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="at">method =</span> <span class="st">'color'</span>, </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">order =</span> <span class="st">'hclust'</span>, </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">'lower'</span>, </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">diag =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">col =</span> <span class="fu">COL2</span>(<span class="st">'PuOr'</span>, <span class="dv">100</span>),</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">tl.col =</span> <span class="st">'black'</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">addCoef.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">number.cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">title =</span> <span class="st">'Correlation between Audio Features'</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cex.main =</span> <span class="fl">0.8</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">tl.cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cl.ratio =</span> <span class="fl">0.2</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cl.cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="datastory_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="768"></p>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation between genres</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>genre_median <span class="ot">&lt;-</span> spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playlist_genre) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_if</span>(is.numeric, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>genre_overview <span class="ot">&lt;-</span> genre_median <span class="sc">%&gt;%</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(audio_features, <span class="sc">-</span>mode) <span class="sc">%&gt;%</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>()</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(genre_overview) <span class="ot">&lt;-</span> genre_median<span class="sc">$</span>playlist_genre</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(genre_overview) <span class="ot">&lt;-</span> genre_median<span class="sc">$</span>playlist_genre</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>genre_overview <span class="sc">%&gt;%</span> corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="at">method =</span> <span class="st">'color'</span>, </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">order =</span> <span class="st">'hclust'</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">'lower'</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">tl.col =</span> <span class="st">'black'</span>,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>                     <span class="at">diag =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>                     <span class="at">col =</span> <span class="fu">COL2</span>(<span class="st">'PuOr'</span>, <span class="dv">100</span>),</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>                     <span class="at">addCoef.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">number.cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>                     <span class="at">title =</span> <span class="st">'Correlation between Genre Features'</span>,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cex.main =</span> <span class="fl">0.8</span>,</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>),</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                     <span class="at">tl.cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cl.ratio =</span> <span class="fl">0.2</span>,</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cl.cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="datastory_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>As such, to find the correlation between genre and audio features, take median value of each feature to compare with overall median of dataset. Those equal to or above median can have that combination of audio features associated with said genre.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation between genre and audio features</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ss1 <span class="ot">&lt;-</span> spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">track_album_release_date =</span> <span class="fu">ymd</span>(track_album_release_date)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">year</span>(track_album_release_date)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_name, track_popularity, track_album_release_date, year, </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>         playlist_genre, danceability, energy, key, speechiness, acousticness, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>         instrumentalness, liveness, valence, tempo) <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `track_album_release_date = ymd(track_album_release_date)`.
+Caused by warning:
+!  1886 failed to parse.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clean data without year attached</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ss_fin <span class="ot">&lt;-</span> <span class="fu">head</span>(ss1, <span class="at">n =</span> <span class="dv">30947</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># find overall median value of various audio features</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>ss_median <span class="ot">&lt;-</span> <span class="fu">summarise_all</span>(ss_fin, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `summarise()`.
+ℹ In argument: `track_name = (function (x, na.rm = FALSE, ...) ...`.
+Caused by warning in `mean.default()`:
+! argument is not numeric or logical: returning NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>medians <span class="ot">&lt;-</span> ss_median <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_popularity, danceability, energy, key, speechiness, acousticness, instrumentalness, liveness, valence, tempo)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># write a function to compare the values and print them in a table format</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>calculate_summary_comparison <span class="ot">&lt;-</span> <span class="cf">function</span>(x, genre_filter) {</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  genre_ss <span class="ot">&lt;-</span> ss_fin <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(playlist_genre <span class="sc">==</span> genre_filter) <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(track_popularity, danceability, energy, key, speechiness, acousticness, instrumentalness, liveness, valence, tempo) </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  genre_summary <span class="ot">&lt;-</span> <span class="fu">summarise_all</span>(genre_ss, median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  medians_comparison <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">rbind</span>(medians, genre_summary) <span class="sc">%&gt;%</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">genre =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"medians"</span>, genre_filter), <span class="at">each =</span> <span class="fu">nrow</span>(medians))))</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  comparison_result <span class="ot">&lt;-</span> <span class="fu">cbind</span>(medians_comparison, <span class="at">subtraction_result =</span> </span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">apply</span>(medians_comparison[<span class="sc">-</span><span class="fu">nrow</span>(medians_comparison), ], <span class="dv">1</span>, <span class="cf">function</span>(row) </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">as.numeric</span>(row[<span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(row)<span class="sc">-</span><span class="dv">1</span>)]) <span class="sc">-</span> </span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">as.numeric</span>(row[<span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(row)])))</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  comparison_result <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(comparison_result)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  header <span class="ot">&lt;-</span> <span class="fu">as.character</span>(comparison_result[<span class="fu">nrow</span>(comparison_result), ])</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  comparison_result <span class="ot">&lt;-</span> comparison_result[<span class="sc">-</span><span class="fu">nrow</span>(comparison_result), ]</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(comparison_result) <span class="ot">&lt;-</span> header</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(comparison_result)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">"subtracted_value"</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  comparison_result <span class="ot">&lt;-</span> comparison_result <span class="sc">%&gt;%</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(comparison_result)</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="co"># to find,</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>pop_comparison <span class="ot">&lt;-</span> <span class="fu">calculate_summary_comparison</span>(<span class="at">x =</span> <span class="st">"pop"</span>, <span class="at">genre_filter =</span> <span class="st">"pop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cbind(medians_comparison, subtraction_result =
+apply(medians_comparison[-nrow(medians_comparison), : number of rows of result
+is not a multiple of vector length (arg 2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pop_comparison <span class="co"># popularity, energy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;"> medians </th>
+   <th style="text-align:left;"> pop </th>
+   <th style="text-align:left;"> subtracted_value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> track_popularity </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 52 </td>
+   <td style="text-align:left;"> -7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> danceability </td>
+   <td style="text-align:left;"> 0.674 </td>
+   <td style="text-align:left;"> 0.653 </td>
+   <td style="text-align:left;"> 0.021 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> energy </td>
+   <td style="text-align:left;"> 0.721 </td>
+   <td style="text-align:left;"> 0.724 </td>
+   <td style="text-align:left;"> -0.003 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> key </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 5 </td>
+   <td style="text-align:left;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> speechiness </td>
+   <td style="text-align:left;"> 0.0636 </td>
+   <td style="text-align:left;"> 0.0495 </td>
+   <td style="text-align:left;"> 0.0141 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> acousticness </td>
+   <td style="text-align:left;"> 0.0810 </td>
+   <td style="text-align:left;"> 0.0791 </td>
+   <td style="text-align:left;"> 0.0019 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> instrumentalness </td>
+   <td style="text-align:left;"> 1.53e-05 </td>
+   <td style="text-align:left;"> 9.86e-06 </td>
+   <td style="text-align:left;"> 5.44e-06 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> liveness </td>
+   <td style="text-align:left;"> 0.127 </td>
+   <td style="text-align:left;"> 0.123 </td>
+   <td style="text-align:left;"> 0.004 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> valence </td>
+   <td style="text-align:left;"> 0.506 </td>
+   <td style="text-align:left;"> 0.498 </td>
+   <td style="text-align:left;"> 0.00800000000000001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tempo </td>
+   <td style="text-align:left;"> 122.001 </td>
+   <td style="text-align:left;"> 120.004 </td>
+   <td style="text-align:left;"> 1.997 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>rnb_comparison <span class="ot">&lt;-</span> <span class="fu">calculate_summary_comparison</span>(<span class="at">x =</span> <span class="st">"r&amp;b"</span>, <span class="at">genre_filter =</span> <span class="st">"r&amp;b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cbind(medians_comparison, subtraction_result =
+apply(medians_comparison[-nrow(medians_comparison), : number of rows of result
+is not a multiple of vector length (arg 2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>rnb_comparison <span class="co"># danceability, speechiness, acousticness, valence</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;"> medians </th>
+   <th style="text-align:left;"> r&amp;b </th>
+   <th style="text-align:left;"> subtracted_value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> track_popularity </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> danceability </td>
+   <td style="text-align:left;"> 0.674 </td>
+   <td style="text-align:left;"> 0.689 </td>
+   <td style="text-align:left;"> -0.0149999999999999 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> energy </td>
+   <td style="text-align:left;"> 0.721 </td>
+   <td style="text-align:left;"> 0.594 </td>
+   <td style="text-align:left;"> 0.127 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> key </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> speechiness </td>
+   <td style="text-align:left;"> 0.0636 </td>
+   <td style="text-align:left;"> 0.0692 </td>
+   <td style="text-align:left;"> -0.00559999999999999 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> acousticness </td>
+   <td style="text-align:left;"> 0.0810 </td>
+   <td style="text-align:left;"> 0.1695 </td>
+   <td style="text-align:left;"> -0.0885 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> instrumentalness </td>
+   <td style="text-align:left;"> 1.53e-05 </td>
+   <td style="text-align:left;"> 4.19e-06 </td>
+   <td style="text-align:left;"> 1.111e-05 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> liveness </td>
+   <td style="text-align:left;"> 0.127 </td>
+   <td style="text-align:left;"> 0.120 </td>
+   <td style="text-align:left;"> 0.00700000000000001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> valence </td>
+   <td style="text-align:left;"> 0.506 </td>
+   <td style="text-align:left;"> 0.533 </td>
+   <td style="text-align:left;"> -0.027 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tempo </td>
+   <td style="text-align:left;"> 122.0010 </td>
+   <td style="text-align:left;"> 109.0075 </td>
+   <td style="text-align:left;"> 12.9935 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rap_comparison <span class="ot">&lt;-</span> <span class="fu">calculate_summary_comparison</span>(<span class="at">x =</span> <span class="st">"rap"</span>, <span class="at">genre_filter =</span> <span class="st">"rap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cbind(medians_comparison, subtraction_result =
+apply(medians_comparison[-nrow(medians_comparison), : number of rows of result
+is not a multiple of vector length (arg 2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rap_comparison <span class="co"># popularity, danceability, speechiness, acousticness, valence</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;"> medians </th>
+   <th style="text-align:left;"> rap </th>
+   <th style="text-align:left;"> subtracted_value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> track_popularity </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 48 </td>
+   <td style="text-align:left;"> -3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> danceability </td>
+   <td style="text-align:left;"> 0.674 </td>
+   <td style="text-align:left;"> 0.737 </td>
+   <td style="text-align:left;"> -0.063 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> energy </td>
+   <td style="text-align:left;"> 0.721 </td>
+   <td style="text-align:left;"> 0.665 </td>
+   <td style="text-align:left;"> 0.0559999999999999 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> key </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> speechiness </td>
+   <td style="text-align:left;"> 0.0636 </td>
+   <td style="text-align:left;"> 0.1740 </td>
+   <td style="text-align:left;"> -0.1104 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> acousticness </td>
+   <td style="text-align:left;"> 0.081 </td>
+   <td style="text-align:left;"> 0.112 </td>
+   <td style="text-align:left;"> -0.031 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> instrumentalness </td>
+   <td style="text-align:left;"> 1.53e-05 </td>
+   <td style="text-align:left;"> 0.00e+00 </td>
+   <td style="text-align:left;"> 1.53e-05 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> liveness </td>
+   <td style="text-align:left;"> 0.127 </td>
+   <td style="text-align:left;"> 0.127 </td>
+   <td style="text-align:left;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> valence </td>
+   <td style="text-align:left;"> 0.506 </td>
+   <td style="text-align:left;"> 0.509 </td>
+   <td style="text-align:left;"> -0.003 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tempo </td>
+   <td style="text-align:left;"> 122.001 </td>
+   <td style="text-align:left;"> 120.058 </td>
+   <td style="text-align:left;"> 1.943 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>edm_comparison <span class="ot">&lt;-</span> <span class="fu">calculate_summary_comparison</span>(<span class="at">x =</span> <span class="st">"edm"</span>, <span class="at">genre_filter =</span> <span class="st">"edm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cbind(medians_comparison, subtraction_result =
+apply(medians_comparison[-nrow(medians_comparison), : number of rows of result
+is not a multiple of vector length (arg 2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>edm_comparison <span class="co"># energy, instrumentalness, liveness, tempo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;"> medians </th>
+   <th style="text-align:left;"> edm </th>
+   <th style="text-align:left;"> subtracted_value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> track_popularity </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 36 </td>
+   <td style="text-align:left;"> 9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> danceability </td>
+   <td style="text-align:left;"> 0.674 </td>
+   <td style="text-align:left;"> 0.658 </td>
+   <td style="text-align:left;"> 0.016 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> energy </td>
+   <td style="text-align:left;"> 0.721 </td>
+   <td style="text-align:left;"> 0.831 </td>
+   <td style="text-align:left;"> -0.11 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> key </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> speechiness </td>
+   <td style="text-align:left;"> 0.0636 </td>
+   <td style="text-align:left;"> 0.0602 </td>
+   <td style="text-align:left;"> 0.00340000000000001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> acousticness </td>
+   <td style="text-align:left;"> 0.0810 </td>
+   <td style="text-align:left;"> 0.0193 </td>
+   <td style="text-align:left;"> 0.0617 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> instrumentalness </td>
+   <td style="text-align:left;"> 1.53e-05 </td>
+   <td style="text-align:left;"> 3.95e-03 </td>
+   <td style="text-align:left;"> -0.0039347 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> liveness </td>
+   <td style="text-align:left;"> 0.127 </td>
+   <td style="text-align:left;"> 0.139 </td>
+   <td style="text-align:left;"> -0.012 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> valence </td>
+   <td style="text-align:left;"> 0.506 </td>
+   <td style="text-align:left;"> 0.368 </td>
+   <td style="text-align:left;"> 0.138 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tempo </td>
+   <td style="text-align:left;"> 122.001 </td>
+   <td style="text-align:left;"> 127.040 </td>
+   <td style="text-align:left;"> -5.039 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>rock_comparison <span class="ot">&lt;-</span> <span class="fu">calculate_summary_comparison</span>(<span class="at">x =</span> <span class="st">"rock"</span>, <span class="at">genre_filter =</span> <span class="st">"rock"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cbind(medians_comparison, subtraction_result =
+apply(medians_comparison[-nrow(medians_comparison), : number of rows of result
+is not a multiple of vector length (arg 2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>rock_comparison <span class="co"># energy, instrumentalness, liveness, valence, tempo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;"> medians </th>
+   <th style="text-align:left;"> rock </th>
+   <th style="text-align:left;"> subtracted_value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> track_popularity </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> danceability </td>
+   <td style="text-align:left;"> 0.674 </td>
+   <td style="text-align:left;"> 0.523 </td>
+   <td style="text-align:left;"> 0.151 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> energy </td>
+   <td style="text-align:left;"> 0.721 </td>
+   <td style="text-align:left;"> 0.785 </td>
+   <td style="text-align:left;"> -0.0640000000000001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> key </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 5 </td>
+   <td style="text-align:left;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> speechiness </td>
+   <td style="text-align:left;"> 0.0636 </td>
+   <td style="text-align:left;"> 0.0427 </td>
+   <td style="text-align:left;"> 0.0209 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> acousticness </td>
+   <td style="text-align:left;"> 0.0810 </td>
+   <td style="text-align:left;"> 0.0327 </td>
+   <td style="text-align:left;"> 0.0483 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> instrumentalness </td>
+   <td style="text-align:left;"> 1.53e-05 </td>
+   <td style="text-align:left;"> 2.10e-04 </td>
+   <td style="text-align:left;"> -0.0001947 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> liveness </td>
+   <td style="text-align:left;"> 0.127 </td>
+   <td style="text-align:left;"> 0.138 </td>
+   <td style="text-align:left;"> -0.011 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> valence </td>
+   <td style="text-align:left;"> 0.506 </td>
+   <td style="text-align:left;"> 0.521 </td>
+   <td style="text-align:left;"> -0.015 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tempo </td>
+   <td style="text-align:left;"> 122.001 </td>
+   <td style="text-align:left;"> 124.166 </td>
+   <td style="text-align:left;"> -2.16499999999999 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>latin_comparison <span class="ot">&lt;-</span> <span class="fu">calculate_summary_comparison</span>(<span class="at">x =</span> <span class="st">"latin"</span>, <span class="at">genre_filter =</span> <span class="st">"latin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cbind(medians_comparison, subtraction_result =
+apply(medians_comparison[-nrow(medians_comparison), : number of rows of result
+is not a multiple of vector length (arg 2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>latin_comparison <span class="co"># popularity, danceability, energy, speechiness, acousticness, valence</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;"> medians </th>
+   <th style="text-align:left;"> latin </th>
+   <th style="text-align:left;"> subtracted_value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> track_popularity </td>
+   <td style="text-align:left;"> 45 </td>
+   <td style="text-align:left;"> 51 </td>
+   <td style="text-align:left;"> -6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> danceability </td>
+   <td style="text-align:left;"> 0.674 </td>
+   <td style="text-align:left;"> 0.729 </td>
+   <td style="text-align:left;"> -0.0549999999999999 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> energy </td>
+   <td style="text-align:left;"> 0.721 </td>
+   <td style="text-align:left;"> 0.728 </td>
+   <td style="text-align:left;"> -0.00700000000000001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> key </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> speechiness </td>
+   <td style="text-align:left;"> 0.0636 </td>
+   <td style="text-align:left;"> 0.0681 </td>
+   <td style="text-align:left;"> -0.00449999999999999 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> acousticness </td>
+   <td style="text-align:left;"> 0.081 </td>
+   <td style="text-align:left;"> 0.139 </td>
+   <td style="text-align:left;"> -0.058 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> instrumentalness </td>
+   <td style="text-align:left;"> 1.53e-05 </td>
+   <td style="text-align:left;"> 2.43e-06 </td>
+   <td style="text-align:left;"> 1.287e-05 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> liveness </td>
+   <td style="text-align:left;"> 0.127 </td>
+   <td style="text-align:left;"> 0.121 </td>
+   <td style="text-align:left;"> 0.006 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> valence </td>
+   <td style="text-align:left;"> 0.506 </td>
+   <td style="text-align:left;"> 0.624 </td>
+   <td style="text-align:left;"> -0.118 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tempo </td>
+   <td style="text-align:left;"> 122.001 </td>
+   <td style="text-align:left;"> 110.452 </td>
+   <td style="text-align:left;"> 11.549 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </section>
-<section id="creating-structured-data-sets" class="level2">
-<h2 class="anchored" data-anchor-id="creating-structured-data-sets">Creating Structured Data Sets</h2>
-<p>Create structured data sets, grouping songs by year. Calculate defined genre evolution metrics for each year.</p>
+<section id="test-the-predictive-algorithm" class="level2">
+<h2 class="anchored" data-anchor-id="test-the-predictive-algorithm">Test the Predictive Algorithm</h2>
+<p>Decision tree predictions may be incorrect, prove by reverse-engineering:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>classify_genre <span class="ot">&lt;-</span> <span class="cf">function</span>(song) {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (song[<span class="st">"energy"</span>] <span class="sc">&gt;</span> <span class="fl">0.721</span>) {</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"pop"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (song[<span class="st">"track_popularity"</span>] <span class="sc">&gt;</span> <span class="dv">45</span>) {</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (song[<span class="st">"danceability"</span>] <span class="sc">&gt;</span> <span class="fl">0.674</span>) {</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="st">"latin"</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="st">"pop"</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (song[<span class="st">"danceability"</span>] <span class="sc">&gt;</span> <span class="fl">0.674</span>) {</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"r&amp;b"</span>)</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (song[<span class="st">"valence"</span>] <span class="sc">&gt;</span> <span class="fl">0.506</span>) {</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"rock"</span>)</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"edm"</span>)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>spotify_songs<span class="sc">$</span>predicted_genre <span class="ot">&lt;-</span> <span class="fu">apply</span>(spotify_songs, <span class="dv">1</span>, classify_genre)</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_name, track_popularity, track_album_release_date, </span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>         playlist_genre, predicted_genre, danceability, energy, key, </span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>         speechiness, acousticness, instrumentalness, liveness, valence, tempo) <span class="sc">%&gt;%</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">match =</span> <span class="fu">if_else</span>(playlist_genre <span class="sc">==</span> predicted_genre, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>accuracy_predictions <span class="ot">&lt;-</span> predictions <span class="sc">%&gt;%</span> </span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">match =</span> <span class="fu">ifelse</span>(playlist_genre <span class="sc">==</span> predicted_genre, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(match) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">accuracy =</span> n<span class="sc">/</span><span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>accuracy_predictions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  match     n accuracy
+1 FALSE 26626 81.09524
+2  TRUE  6207 18.90476</code></pre>
+</div>
+</div>
+<p>Since accuracy is quite poor, try on a smaller test set, instead of the whole data-set:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trying with a test case of 10 random songs from the spotify_songs dataset</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>random_10 <span class="ot">&lt;-</span> spotify_songs <span class="sc">%&gt;%</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">10</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>random_10<span class="sc">$</span>predicted_genre <span class="ot">&lt;-</span> <span class="fu">apply</span>(random_10, <span class="dv">1</span>, classify_genre)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>predictions10 <span class="ot">&lt;-</span> random_10 <span class="sc">%&gt;%</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(track_name, track_popularity, track_album_release_date, </span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>         playlist_genre, predicted_genre, danceability, energy, key, </span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>         speechiness, acousticness, instrumentalness, liveness, valence, tempo) <span class="sc">%&gt;%</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">match =</span> <span class="fu">if_else</span>(playlist_genre <span class="sc">==</span> predicted_genre, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(predicted_genre)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>accuracy_predictions10 <span class="ot">&lt;-</span> predictions10 <span class="sc">%&gt;%</span> </span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">match =</span> <span class="fu">ifelse</span>(playlist_genre <span class="sc">==</span> predicted_genre, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(match) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">accuracy =</span> n<span class="sc">/</span><span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>accuracy_predictions10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  match n accuracy
+1 FALSE 8       80
+2  TRUE 2       20</code></pre>
+</div>
+</div>
 </section>
 <section id="temporal-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="temporal-analysis">Temporal Analysis</h2>

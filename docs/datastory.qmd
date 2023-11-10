@@ -6,6 +6,8 @@ editor: visual
 
 > **"Music expresses that which cannot be put into words and that which cannot remain silent**." - Victor Hugo
 
+Hi there, thanks for being on my website! I haven't quite had the time to format everything (or, in other words, make everything look pretty) but this is the work I've done so far, and the visualisations I've attempted to produce. See you next week :-)
+
 ## Introduction
 
 In the ever-evolving world of music, I embarked on a captivating journey to explore the intricate tapestry of Spotify's genre classification system. Spanning six decades from 1957 to 2020, this musical time machine allowed me to witness how music genres have not only shaped themselves but have been profoundly influenced by changing industry dynamics and listener preferences.
@@ -16,16 +18,397 @@ As such, the examination of the evolution of music genre categorisation on Spoti
 
 ## 'Tidying' Data
 
-Especially formatting release dates. Boxplots - for outliers.
+Overview of the data-set:
+
+```{r setup, warning = FALSE, error = FALSE, message = FALSE}
+library(tidyverse)
+library(ggplot2)
+library(tibble)
+library(dplyr)
+library(cowplot)
+library(lubridate)
+library(corrplot)
+library(gridExtra)
+library(rpart)
+library(rpart.plot)
+library(kableExtra)
+
+# view of data set
+spotify_songs <- read.csv("spotify_songs.csv")
+```
+
+Then, to isolate the tracks, genres, and audio features, I created a new data-set for easy viewing. I also created a list of genres and the respective quantity of songs for each.
+
+```{r, echo = TRUE, eval = TRUE}
+# view column names
+column_names <- data.frame(Variable = names(spotify_songs))
+print(column_names)
+
+# new dataset for variables
+spotify_genres <- spotify_songs %>%
+                  select(track_name, track_album_release_date, playlist_genre, playlist_subgenre)
+
+# new dataset for features
+audio_features <- spotify_songs %>%
+                  select(track_name, track_album_release_date, danceability, energy, key, loudness, mode, speechiness, acousticness, instrumentalness, liveness, valence, tempo, duration_ms)
+
+# what are the individual genres
+summary_genres <- spotify_genres %>%
+                  count(playlist_genre)
+
+count <- summary_genres %>%
+  knitr::kable()
+```
+
+\[Shiny UI WIP to represent the below data in Tabsets\]
+
+Tab 1: Overall Popularity of Each Genre
+
+```{r, echo = TRUE, eval = TRUE}
+# overall popularity of each genre
+ggplot(summary_genres, aes(x = playlist_genre, y = n, group = 1)) +
+  geom_point(stat = "identity") +
+  labs(title = "Popularity of Genres", x = "Playlist Genre", y = "Count (1956 - 2020)")
+```
+
+Counted the quantity and associations of songs with respective subgenres:
+
+```{r, echo = TRUE, eval = TRUE}
+# isolate subgenres for edm
+filtered_edm <- spotify_genres %>%
+  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
+  filter(playlist_genre == "edm")
+
+edm_subg_count <- table(filtered_edm$playlist_subgenre)
+edm_summary <- data.frame(playlist_subgenre = names(edm_subg_count), Count = as.numeric(edm_subg_count)) %>%
+  mutate(playlist_genre = "edm")
+
+# isolate subgenres for latin
+filtered_latin <- spotify_genres %>%
+  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
+  filter(playlist_genre == "latin")
+
+latin_subg_count <- table(filtered_latin$playlist_subgenre)
+latin_summary <- data.frame(playlist_subgenre = names(latin_subg_count), Count = as.numeric(latin_subg_count)) %>%
+  mutate(playlist_genre = "latin")
+
+# isolate subgenres for pop
+filtered_pop <- spotify_genres %>%
+  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
+  filter(playlist_genre == "pop")
+
+pop_subg_count <- table(filtered_pop$playlist_subgenre)
+pop_summary <- data.frame(playlist_subgenre = names(pop_subg_count), Count = as.numeric(pop_subg_count)) %>%
+  mutate(playlist_genre = "pop")
+
+# isolate subgenres for r&b
+filtered_rnb <- spotify_genres %>%
+  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
+  filter(playlist_genre == "r&b")
+
+rnb_subg_count <- table(filtered_rnb$playlist_subgenre)
+rnb_summary <- data.frame(playlist_subgenre = names(rnb_subg_count), Count = as.numeric(rnb_subg_count)) %>%
+  mutate(playlist_genre = "rnb")
+
+# isolate subgenres for rap
+filtered_rap <- spotify_genres %>%
+  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
+  filter(playlist_genre == "rap")
+
+rap_subg_count <- table(filtered_rap$playlist_subgenre)
+rap_summary <- data.frame(playlist_subgenre = names(rap_subg_count), Count = as.numeric(rap_subg_count)) %>%
+  mutate(playlist_genre = "rap")
+
+# isolate subgenres for rock
+filtered_rock <- spotify_genres %>%
+  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
+  filter(playlist_genre == "rock")
+
+rock_subg_count <- table(filtered_rock$playlist_subgenre)
+rock_summary <- data.frame(playlist_subgenre = names(rock_subg_count), Count = as.numeric(rock_subg_count)) %>%
+  mutate(playlist_genre = "rock")
+
+# combine the datasets
+subgenre_count <- bind_rows(edm_summary, latin_summary, pop_summary, rnb_summary, rap_summary, rock_summary)
+subgenre_count
+```
+
+Tab 2: Popularity of Subgenres within Individual Genres
+
+```{r, echo = TRUE, eval = TRUE, fig.height = 6, fig.width = 6}
+edm <- ggplot(edm_summary, aes(x = playlist_subgenre, y = Count)) +
+  geom_point(stat = "identity") +
+  labs(title = "EDM", x = "Subgenre", y = "Count")
+latin <- ggplot(latin_summary, aes(x = playlist_subgenre, y = Count)) +
+  geom_point(stat = "identity") +
+  labs(title = "Latin", x = "Subgenre", y = "Count")
+pop <- ggplot(pop_summary, aes(x = playlist_subgenre, y = Count)) +
+  geom_point(stat = "identity") +
+  labs(title = "Pop", x = "Subgenre", y = "Count")
+rnb <- ggplot(rnb_summary, aes(x = playlist_subgenre, y = Count)) +
+  geom_point(stat = "identity") +
+  labs(title = "R&B", x = "Subgenre", y = "Count")
+rap <- ggplot(rap_summary, aes(x = playlist_subgenre, y = Count)) +
+  geom_point(stat = "identity") +
+  labs(title = "Rap", x = "Subgenre", y = "Count")
+rock <- ggplot(rock_summary, aes(x = playlist_subgenre, y = Count)) +
+  geom_point(stat = "identity") +
+  labs(title = "Rock", x = "Subgenre", y = "Count")
+
+plot_grid(
+edm + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
+latin + theme(legend.justification = c(1,0), axis.text.x = element_text(size = 6)),
+pop + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
+rnb + theme(legend.justification = c(1,0), axis.text.x = element_text(size = 6)),
+rap + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
+rock + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
+align = "v", axis = "lr", 
+nrow = 3, ncol = 2,
+rel_heights = c(1, 1))
+```
 
 ## Defining Genre
 
 Histograms, hexbins/density plots - preliminary relationships, correlations re: use of specific audio features among themselves and in different genres.\
 Decision trees to define the 'key' audio features of each genre.
 
-## Creating Structured Data Sets
+Condensing the data-sets into 'by year' from YYYY-MM-DD.
 
-Create structured data sets, grouping songs by year. Calculate defined genre evolution metrics for each year.
+```{r, echo = TRUE, eval = TRUE}
+spotify_genres_byyear <- spotify_genres %>% 
+  mutate(track_album_release_date = ymd(track_album_release_date)) %>%
+  mutate(year = year(track_album_release_date)) %>%
+  select(track_name, track_album_release_date, playlist_genre, playlist_subgenre, year) %>%
+  arrange(year)
+
+most_byyear <- head(spotify_genres_byyear, n = 30947)
+byyear1 <- most_byyear %>% 
+           select(track_name, playlist_genre, playlist_subgenre, year)
+
+year_only <- tail(spotify_genres_byyear, n = 1885)
+byyear2 <- year_only %>%
+           select(track_name, playlist_genre, playlist_subgenre, track_album_release_date) %>%
+           rename(year = track_album_release_date)
+
+final_byyear <- rbind(byyear1, byyear2) %>%
+                arrange(year)
+```
+
+Filtered the data to not include songs before 1966 to have a substantial sample size/population per year.
+
+```{r, echo = TRUE, eval = TRUE}
+# split the datasets by year
+yearly_datasets <- final_byyear %>%
+  group_split(year)
+
+dataset_names <- unique(final_byyear$year)
+
+for (i in seq_along(yearly_datasets)) {
+  assign(paste0("spotify_dataset_", dataset_names[i]), yearly_datasets[[i]])
+}
+
+# hence, may need to eliminate datasets before 1966 - minimum sample size as a population size of 30.
+cleaned_datasets <- tail(final_byyear, n = 32793)
+```
+
+Histogram created to determine the density of audio features by genre, likely will turn into interactive Shiny UI.
+
+```{r, echo = TRUE, eval = TRUE, fig.height = 6, fig.width = 8}
+# density of audio features by genre, probably change this to shiny
+audio_features <- names(spotify_songs)[c(12:23)]
+
+spotify_songs %>%
+  select(c('playlist_genre', audio_features)) %>%
+  pivot_longer(cols = audio_features) %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(aes(fill = playlist_genre), color = "black", alpha = 0.5, bins = 10) +
+  facet_wrap(~name, ncol = 4, scales = 'free') +
+  labs(title = 'Histogram - Audio Features by Genre', y = 'Density') +
+  theme(axis.text.y = element_blank())
+```
+
+Found the correlation among individual audio features, as well as among individual genres as well. Tabsets.
+
+```{r, echo = TRUE, eval = TRUE, fig.height = 8, fig.width = 8}
+# correlation between audio features
+spotify_songs %>%
+  select(audio_features) %>%
+  scale() %>%
+  cor() %>%
+  corrplot::corrplot(method = 'color', 
+                     order = 'hclust', 
+                     type = 'lower', 
+                     diag = TRUE,
+                     col = COL2('PuOr', 100),
+                     tl.col = 'black',
+                     addCoef.col = "black",
+                     number.cex = 0.5,
+                     title = 'Correlation between Audio Features',
+                     cex.main = 0.8,
+                     mar = c(3,3,3,3),
+                     tl.cex = 0.5,
+                     cl.ratio = 0.2,
+                     cl.cex = 0.5)
+
+# correlation between genres
+genre_median <- spotify_songs %>%
+  group_by(playlist_genre) %>%
+  summarise_if(is.numeric, median, na.rm = TRUE)
+
+genre_overview <- genre_median %>%
+  select(audio_features, -mode) %>%
+  scale() %>%
+  t() %>%
+  as.matrix() %>%
+  cor()
+
+colnames(genre_overview) <- genre_median$playlist_genre
+row.names(genre_overview) <- genre_median$playlist_genre
+
+genre_overview %>% corrplot::corrplot(method = 'color', 
+                     order = 'hclust',
+                     type = 'lower',
+                     tl.col = 'black',
+                     diag = TRUE,
+                     col = COL2('PuOr', 100),
+                     addCoef.col = "black",
+                     number.cex = 0.5,
+                     title = 'Correlation between Genre Features',
+                     cex.main = 0.8,
+                     mar = c(3,3,3,3),
+                     tl.cex = 0.5,
+                     cl.ratio = 0.2,
+                     cl.cex = 0.5)
+```
+
+As such, to find the correlation between genre and audio features, take median value of each feature to compare with overall median of dataset. Those equal to or above median can have that combination of audio features associated with said genre.
+
+```{r, echo = TRUE, eval = TRUE, message = FALSE}
+# correlation between genre and audio features
+ss1 <- spotify_songs %>%
+  mutate(track_album_release_date = ymd(track_album_release_date)) %>%
+  mutate(year = year(track_album_release_date)) %>%
+  select(track_name, track_popularity, track_album_release_date, year, 
+         playlist_genre, danceability, energy, key, speechiness, acousticness, 
+         instrumentalness, liveness, valence, tempo) %>%
+  arrange(desc(year))
+
+# clean data without year attached
+ss_fin <- head(ss1, n = 30947)
+
+# find overall median value of various audio features
+ss_median <- summarise_all(ss_fin, median, na.rm = TRUE)
+medians <- ss_median %>%
+  select(track_popularity, danceability, energy, key, speechiness, acousticness, instrumentalness, liveness, valence, tempo)
+
+# write a function to compare the values and print them in a table format
+calculate_summary_comparison <- function(x, genre_filter) {
+  genre_ss <- ss_fin %>%
+    filter(playlist_genre == genre_filter) %>%
+    select(track_popularity, danceability, energy, key, speechiness, acousticness, instrumentalness, liveness, valence, tempo) 
+
+  genre_summary <- summarise_all(genre_ss, median, na.rm = TRUE)
+  
+  medians_comparison <- t(rbind(medians, genre_summary) %>%
+    mutate(genre = rep(c("medians", genre_filter), each = nrow(medians))))
+
+  comparison_result <- cbind(medians_comparison, subtraction_result = 
+                    apply(medians_comparison[-nrow(medians_comparison), ], 1, function(row) 
+                    as.numeric(row[1:(length(row)-1)]) - 
+                    as.numeric(row[2:length(row)])))
+  comparison_result <- as.data.frame(comparison_result)
+
+  header <- as.character(comparison_result[nrow(comparison_result), ])
+  comparison_result <- comparison_result[-nrow(comparison_result), ]
+  colnames(comparison_result) <- header
+  colnames(comparison_result)[3] <- "subtracted_value"
+
+  comparison_result <- comparison_result %>%
+    knitr::kable()
+  
+  return(comparison_result)
+}
+
+# to find,
+pop_comparison <- calculate_summary_comparison(x = "pop", genre_filter = "pop")
+pop_comparison # popularity, energy
+
+rnb_comparison <- calculate_summary_comparison(x = "r&b", genre_filter = "r&b")
+rnb_comparison # danceability, speechiness, acousticness, valence
+
+rap_comparison <- calculate_summary_comparison(x = "rap", genre_filter = "rap")
+rap_comparison # popularity, danceability, speechiness, acousticness, valence
+
+edm_comparison <- calculate_summary_comparison(x = "edm", genre_filter = "edm")
+edm_comparison # energy, instrumentalness, liveness, tempo
+
+rock_comparison <- calculate_summary_comparison(x = "rock", genre_filter = "rock")
+rock_comparison # energy, instrumentalness, liveness, valence, tempo
+
+latin_comparison <- calculate_summary_comparison(x = "latin", genre_filter = "latin")
+latin_comparison # popularity, danceability, energy, speechiness, acousticness, valence
+```
+
+## Test the Predictive Algorithm
+
+Decision tree predictions may be incorrect, prove by reverse-engineering:
+
+```{r, echo = TRUE, eval = TRUE, fig.height = 20, fig.width = 7}
+classify_genre <- function(song) {
+  if (song["energy"] > 0.721) {
+    return("pop")
+  } else if (song["track_popularity"] > 45) {
+    if (song["danceability"] > 0.674) {
+      return("latin")
+    } else {
+      return("pop")
+    }
+  } else if (song["danceability"] > 0.674) {
+    return("r&b")
+  } else if (song["valence"] > 0.506) {
+    return("rock")
+  } else {
+    return("edm")
+  }
+}
+
+spotify_songs$predicted_genre <- apply(spotify_songs, 1, classify_genre)
+predictions <- spotify_songs %>%
+  select(track_name, track_popularity, track_album_release_date, 
+         playlist_genre, predicted_genre, danceability, energy, key, 
+         speechiness, acousticness, instrumentalness, liveness, valence, tempo) %>%
+  mutate(match = if_else(playlist_genre == predicted_genre, TRUE, FALSE))
+
+accuracy_predictions <- predictions %>% 
+    mutate(match = ifelse(playlist_genre == predicted_genre, TRUE, FALSE)) %>% 
+    count(match) %>% 
+    mutate(accuracy = n/sum(n) * 100)
+accuracy_predictions
+```
+
+Since accuracy is quite poor, try on a smaller test set, instead of the whole data-set:
+
+```{r, echo = TRUE, eval = TRUE, fig.height = 5, fig.width = 7}
+# trying with a test case of 10 random songs from the spotify_songs dataset
+set.seed(123)
+
+random_10 <- spotify_songs %>%
+  sample_n(10)
+
+random_10$predicted_genre <- apply(random_10, 1, classify_genre)
+predictions10 <- random_10 %>%
+  select(track_name, track_popularity, track_album_release_date, 
+         playlist_genre, predicted_genre, danceability, energy, key, 
+         speechiness, acousticness, instrumentalness, liveness, valence, tempo) %>%
+  mutate(match = if_else(playlist_genre == predicted_genre, TRUE, FALSE)) %>%
+  arrange(predicted_genre)
+
+accuracy_predictions10 <- predictions10 %>% 
+    mutate(match = ifelse(playlist_genre == predicted_genre, TRUE, FALSE)) %>% 
+    count(match) %>% 
+    mutate(accuracy = n/sum(n) * 100)
+accuracy_predictions10
+```
 
 ## Temporal Analysis
 
