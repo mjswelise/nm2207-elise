@@ -130,4 +130,6 @@ Initially, I was using a decision tree structured manually by the ifelse functio
 
 I've also been challenged with regards to implementing the Shiny UI into my website, but I have watched a few Youtube videos as to how to incorporate it as such.
 
+Also, my visualisations aren't loading on the website. Still trying to figure that out.
+
 Thank you!
