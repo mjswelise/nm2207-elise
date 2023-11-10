@@ -60,5 +60,9 @@ Combined: [Code-Along-9, Challenge-9](https://github.com/mjswelise/nm2207-elise/
 
 [Diary Entry](https://github.com/mjswelise/nm2207-elise/blob/Week-11/Diary-Entries.Rmd)
 
+## Week-12
+
+[Diary Entry](https://github.com/mjswelise/nm2207-elise/blob/Week-12/Diary-Entries.Rmd)
+
 ## Diary Entries
-[Most Updated Diary Entry](https://github.com/mjswelise/nm2207-elise/blob/Week-11/Diary-Entries.Rmd)
+[Most Updated Diary Entry](https://github.com/mjswelise/nm2207-elise/blob/Week-12/Diary-Entries.Rmd)
