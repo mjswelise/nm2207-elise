@@ -20,7 +20,9 @@ website:
 
 format:
   html:
-    theme: quartz
+    theme: 
+      light: lux
+      dark: quartz
     css: styles.css
     toc: true
 
