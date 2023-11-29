@@ -1,26 +1,22 @@
 ---
-title: "An Analysis of Music Genre Evolution on Spotify (1957-2020)"
+title: "How Does Genre Classification Work? A Study of Spotify Data"
 format: html
 editor: visual
 ---
 
 > **"Music expresses that which cannot be put into words and that which cannot remain silent**." - Victor Hugo
 
-Hi there, thanks for being on my website! I haven't quite had the time to format everything (or, in other words, make everything look pretty) but this is the work I've done so far, and the visualisations I've attempted to produce. See you next week :-)
-
 ## Introduction
 
-In the ever-evolving world of music, I embarked on a captivating journey to explore the intricate tapestry of Spotify's genre classification system. Spanning six decades from 1957 to 2020, this musical time machine allowed me to witness how music genres have not only shaped themselves but have been profoundly influenced by changing industry dynamics and listener preferences.
+In delving into the mechanics of genre classification within the realm of music, this study takes a comprehensive look at the inner workings of Spotify's genre classification system. Extending its scope across six decades, from 1957 to 2020, this musical exploration serves as a time-traveling odyssey, unraveling the intricate threads that define how music genres not only mold themselves but are intricately woven into the fabric of shifting industry dynamics and evolving listener preferences.
 
-This exploration became all the more pertinent in the face of a rapidly transforming music landscape. According to the Recording Industry Association of America (2022), the revenues from streaming music have surged, accounting for a staggering 84% of total music revenues in the first half of 2021. Spotify, in particular, has spearheaded this revolution and emerged as the "world's biggest music streaming provider in terms of global paid-for subscriptions" (Music Business Worldwide, 2023), with projections indicating continued dominance throughout the 2020s (Goldman Sachs, 2023). Concurrently, digital music platforms have ushered in a shift from rigid "hard genre categorisation" to a more fluid "mood-based categorisation" approach, a strategy aimed at promoting new music through effective exposure (The Guardian, 2017).
+The significance of this exploration is heightened amidst the rapidly transforming landscape of the music industry. As indicated by the Recording Industry Association of America (2022), the surge in revenues from streaming music has been remarkable, constituting an astonishing 84% of total music revenues in the initial half of 2021. At the forefront of this revolution stands Spotify, acknowledged as the "world's largest music streaming provider in terms of global paid-for subscriptions" (Music Business Worldwide, 2023), with projections foreseeing sustained dominance throughout the 2020s (Goldman Sachs, 2023). Simultaneously, the advent of digital music platforms has led to a departure from rigid "hard genre categorisation" to a more adaptable "mood-based categorisation" approach. This strategic shift aims at fostering new music through effective exposure, as highlighted by industry observers (The Guardian, 2017).
 
-As such, the examination of the evolution of music genre categorisation on Spotify in response to songs released is not merely an academic exercise; it is a lens through which we gain insights into the dynamic interplay of change and continuity within the music industry. This understanding can guide business strategies and offer valuable insights into the ever-evolving music landscape, especially within our increasingly digitalised society.
+Thus, scrutinising the metamorphosis of music genre categorization on Spotify in response to released songs transcends mere academic inquiry. It serves as a focal point through which we can glean insights into the dynamic interplay of change and continuity within the music industry. This understanding not only informs business strategies but also provides valuable perspectives on the perpetually evolving musical landscape, particularly within the context of our increasingly digitised society.
 
 ## 'Tidying' Data
 
-Overview of the data-set:
-
-```{r setup, warning = FALSE, error = FALSE, message = FALSE}
+```{r setup, warning = FALSE, error = FALSE, message = FALSE, echo = FALSE}
 library(tidyverse)
 library(ggplot2)
 library(tibble)
@@ -37,12 +33,11 @@ library(kableExtra)
 spotify_songs <- read.csv("spotify_songs.csv")
 ```
 
-Then, to isolate the tracks, genres, and audio features, I created a new data-set for easy viewing. I also created a list of genres and the respective quantity of songs for each.
+First, to isolate the tracks, genres, and audio features for easy processing, I created a new data-set with the relevant variables. I also created a list of genres and the respective quantity of songs for each.
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE}
 # view column names
 column_names <- data.frame(Variable = names(spotify_songs))
-print(column_names)
 
 # new dataset for variables
 spotify_genres <- spotify_songs %>%
@@ -55,126 +50,25 @@ audio_features <- spotify_songs %>%
 # what are the individual genres
 summary_genres <- spotify_genres %>%
                   count(playlist_genre)
+```
 
+```{r, echo = FALSE, eval = TRUE}
 count <- summary_genres %>%
   knitr::kable()
+count
 ```
 
-\[Shiny UI WIP to represent the below data in Tabsets\]
+Using ggplot, to get a sensing of the dataset, I then plot the data into graphs to find the overall trends in genre popularity, subgenre dynamics, and the counts of each subgenre within each genre.
 
-Tab 1: Overall Popularity of Each Genre
+Find it in my interactive Shiny app below!
 
-```{r, echo = TRUE, eval = TRUE}
-# overall popularity of each genre
-ggplot(summary_genres, aes(x = playlist_genre, y = n, group = 1)) +
-  geom_point(stat = "identity") +
-  labs(title = "Popularity of Genres", x = "Playlist Genre", y = "Count (1956 - 2020)")
-```
-
-Counted the quantity and associations of songs with respective subgenres:
-
-```{r, echo = TRUE, eval = TRUE}
-# isolate subgenres for edm
-filtered_edm <- spotify_genres %>%
-  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
-  filter(playlist_genre == "edm")
-
-edm_subg_count <- table(filtered_edm$playlist_subgenre)
-edm_summary <- data.frame(playlist_subgenre = names(edm_subg_count), Count = as.numeric(edm_subg_count)) %>%
-  mutate(playlist_genre = "edm")
-
-# isolate subgenres for latin
-filtered_latin <- spotify_genres %>%
-  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
-  filter(playlist_genre == "latin")
-
-latin_subg_count <- table(filtered_latin$playlist_subgenre)
-latin_summary <- data.frame(playlist_subgenre = names(latin_subg_count), Count = as.numeric(latin_subg_count)) %>%
-  mutate(playlist_genre = "latin")
-
-# isolate subgenres for pop
-filtered_pop <- spotify_genres %>%
-  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
-  filter(playlist_genre == "pop")
-
-pop_subg_count <- table(filtered_pop$playlist_subgenre)
-pop_summary <- data.frame(playlist_subgenre = names(pop_subg_count), Count = as.numeric(pop_subg_count)) %>%
-  mutate(playlist_genre = "pop")
-
-# isolate subgenres for r&b
-filtered_rnb <- spotify_genres %>%
-  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
-  filter(playlist_genre == "r&b")
-
-rnb_subg_count <- table(filtered_rnb$playlist_subgenre)
-rnb_summary <- data.frame(playlist_subgenre = names(rnb_subg_count), Count = as.numeric(rnb_subg_count)) %>%
-  mutate(playlist_genre = "rnb")
-
-# isolate subgenres for rap
-filtered_rap <- spotify_genres %>%
-  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
-  filter(playlist_genre == "rap")
-
-rap_subg_count <- table(filtered_rap$playlist_subgenre)
-rap_summary <- data.frame(playlist_subgenre = names(rap_subg_count), Count = as.numeric(rap_subg_count)) %>%
-  mutate(playlist_genre = "rap")
-
-# isolate subgenres for rock
-filtered_rock <- spotify_genres %>%
-  select(track_album_release_date, playlist_genre, playlist_subgenre) %>%
-  filter(playlist_genre == "rock")
-
-rock_subg_count <- table(filtered_rock$playlist_subgenre)
-rock_summary <- data.frame(playlist_subgenre = names(rock_subg_count), Count = as.numeric(rock_subg_count)) %>%
-  mutate(playlist_genre = "rock")
-
-# combine the datasets
-subgenre_count <- bind_rows(edm_summary, latin_summary, pop_summary, rnb_summary, rap_summary, rock_summary)
-subgenre_count
-```
-
-Tab 2: Popularity of Subgenres within Individual Genres
-
-```{r, echo = TRUE, eval = TRUE, fig.height = 6, fig.width = 6}
-edm <- ggplot(edm_summary, aes(x = playlist_subgenre, y = Count)) +
-  geom_point(stat = "identity") +
-  labs(title = "EDM", x = "Subgenre", y = "Count")
-latin <- ggplot(latin_summary, aes(x = playlist_subgenre, y = Count)) +
-  geom_point(stat = "identity") +
-  labs(title = "Latin", x = "Subgenre", y = "Count")
-pop <- ggplot(pop_summary, aes(x = playlist_subgenre, y = Count)) +
-  geom_point(stat = "identity") +
-  labs(title = "Pop", x = "Subgenre", y = "Count")
-rnb <- ggplot(rnb_summary, aes(x = playlist_subgenre, y = Count)) +
-  geom_point(stat = "identity") +
-  labs(title = "R&B", x = "Subgenre", y = "Count")
-rap <- ggplot(rap_summary, aes(x = playlist_subgenre, y = Count)) +
-  geom_point(stat = "identity") +
-  labs(title = "Rap", x = "Subgenre", y = "Count")
-rock <- ggplot(rock_summary, aes(x = playlist_subgenre, y = Count)) +
-  geom_point(stat = "identity") +
-  labs(title = "Rock", x = "Subgenre", y = "Count")
-
-plot_grid(
-edm + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
-latin + theme(legend.justification = c(1,0), axis.text.x = element_text(size = 6)),
-pop + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
-rnb + theme(legend.justification = c(1,0), axis.text.x = element_text(size = 6)),
-rap + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
-rock + theme(legend.justification = c(0,1), axis.text.x = element_text(size = 6)),
-align = "v", axis = "lr", 
-nrow = 3, ncol = 2,
-rel_heights = c(1, 1))
-```
+\<iframe height="400" width="100%" frameborder="no" src="https://mjswelise.shinyapps.io/2207dataset_overview/"\> \</iframe\>
 
 ## Defining Genre
 
-Histograms, hexbins/density plots - preliminary relationships, correlations re: use of specific audio features among themselves and in different genres.\
-Decision trees to define the 'key' audio features of each genre.
+In my quest to determine what makes a 'genre', I first condensed the data-sets 'by year' from YYYY-MM-DD. Here, I found that there was an insufficient population size of songs from before 1966 (i.e. \<30 instances), and chose to filter the data that way to ensure a more accurate output from my dataset.
 
-Condensing the data-sets into 'by year' from YYYY-MM-DD.
-
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, warning = FALSE, message = FALSE}
 spotify_genres_byyear <- spotify_genres %>% 
   mutate(track_album_release_date = ymd(track_album_release_date)) %>%
   mutate(year = year(track_album_release_date)) %>%
@@ -192,11 +86,7 @@ byyear2 <- year_only %>%
 
 final_byyear <- rbind(byyear1, byyear2) %>%
                 arrange(year)
-```
 
-Filtered the data to not include songs before 1966 to have a substantial sample size/population per year.
-
-```{r, echo = TRUE, eval = TRUE}
 # split the datasets by year
 yearly_datasets <- final_byyear %>%
   group_split(year)
@@ -211,9 +101,17 @@ for (i in seq_along(yearly_datasets)) {
 cleaned_datasets <- tail(final_byyear, n = 32793)
 ```
 
-Histogram created to determine the density of audio features by genre, likely will turn into interactive Shiny UI.
+#### Density of Audio Features by Genre
 
-```{r, echo = TRUE, eval = TRUE, fig.height = 6, fig.width = 8}
+Then, I created a histogram to determine the density of audio features by genre. Here, we can observe that, collectively, the songs in the dataset lean towards characteristics such as low acousticness, liveness, instrumentalness, and speechiness, coupled with higher danceability, energy, and loudness.
+
+On a genre-specific level, EDM tends to feature lower acoustic elements, heightened energy, and subdued valence, conveying a sense of melancholy. In contrast, Latin music is characterised by elevated valence, indicating a positive and cheerful mood, along with pronounced danceability. Rap songs stand out for their high speechiness and danceability, while rock compositions favor live recordings and exhibit lower danceability.
+
+Examining song durations by genre reveals that Pop, Latin, and EDM songs tend to be shorter, while R&B, rap, and rock songs are associated with longer durations.
+
+Analysis of the histogram suggests that elements like energy, valence, tempo, and danceability hold significant potential for distinguishing between genres, whereas instrumentalness and key may contribute less prominently to genre classification.
+
+```{r, echo = TRUE, eval = TRUE, fig.height = 6, fig.width = 8, warning = FALSE}
 # density of audio features by genre, probably change this to shiny
 audio_features <- names(spotify_songs)[c(12:23)]
 
@@ -227,7 +125,9 @@ spotify_songs %>%
   theme(axis.text.y = element_blank())
 ```
 
-Found the correlation among individual audio features, as well as among individual genres as well. Tabsets.
+#### Correlation between Individual Audio Features
+
+In addition, I found the correlation between individual audio features, as well as of individual genres (in the next section!). I wanted to evaluate any further interdependencies among these musical characteristics, as well as to understand the correlation patterns specific to distinct genres, to shed light on how the musical attributes within each genre are interconnected.
 
 ```{r, echo = TRUE, eval = TRUE, fig.height = 8, fig.width = 8}
 # correlation between audio features
@@ -249,7 +149,15 @@ spotify_songs %>%
                      tl.cex = 0.5,
                      cl.ratio = 0.2,
                      cl.cex = 0.5)
+```
 
+Across the audio features, energy and loudness seem especially correlated, with a score of +0.68. As such, perhaps, here, we can establish that loudness is less relevant in a genre classification sense, given that energy is still strongly associated with having distinctions with other audio features (i.e. negatively correlated with acousticness, at -0.54, which can be used as a differentiating factor).
+
+Other noticeable correlations can include danceability and valence, which are positively correlated at +0.33.
+
+#### Correlation between Individual Genres
+
+```{r, echo = TRUE, eval = TRUE, fig.height = 8, fig.width = 8}
 # correlation between genres
 genre_median <- spotify_songs %>%
   group_by(playlist_genre) %>%
@@ -281,9 +189,15 @@ genre_overview %>% corrplot::corrplot(method = 'color',
                      cl.cex = 0.5)
 ```
 
-As such, to find the correlation between genre and audio features, take median value of each feature to compare with overall median of dataset. Those equal to or above median can have that combination of audio features associated with said genre.
+Statistically, by genre, R&B and EDM are most different from each other - they are strongly and negatively correlated by -0.77. In terms of similarities, Latin and R&B seem most similar, positively correlated by 0.45.
 
-```{r, echo = TRUE, eval = TRUE, message = FALSE}
+### So, Let's Try to Classify Genres?
+
+In light of this information, the analysis has provided valuable insights into the characteristics that define each genre. Now, the focus shifts towards creating a quantifiable method for genre categorisation.
+
+To achieve this, I planned to identify the median value of each audio feature for each genre and compare it with the overall median of the entire dataset. The exploration of median values for each genre's audio features in comparison to the overall dataset median will serve as a quantitative basis for discerning the distinctive attributes that define each genre.
+
+```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 # correlation between genre and audio features
 ss1 <- spotify_songs %>%
   mutate(track_album_release_date = ymd(track_album_release_date)) %>%
@@ -349,9 +263,39 @@ latin_comparison <- calculate_summary_comparison(x = "latin", genre_filter = "la
 latin_comparison # popularity, danceability, energy, speechiness, acousticness, valence
 ```
 
+As such, the preliminary defining variables for each genre are:
+
+'Pop' - popularity, energy
+
+'R&B' - danceability, speechiness, acousticness, valence
+
+'Rap' - popularity, danceability, speechiness, acousticness, valence
+
+'EDM' - energy, instrumentalness, liveness, tempo
+
+'Rock' - energy, instrumentalness, liveness, valence, tempo
+
+'Latin' - energy, instrumentalness, liveness, valence, tempo
+
 ## Test the Predictive Algorithm
 
-Decision tree predictions may be incorrect, prove by reverse-engineering:
+In the pursuit of evaluating the effectiveness of my predictive algorithm (i.e. of using audio features to predict genre), the decision was made to employ decision trees as the analytical framework. Decision trees, renowned for their interpretability and efficiency in handling classification tasks, were selected to discern the feasibility of classifying music genres based on the prominence of audio features.
+
+The utilisation of decision trees aligns with the objective of unveiling discernible patterns within the intricate interplay of audio features, providing valuable insights into the distinctive characteristics that define various musical genres. This section undertakes the crucial task of testing the predictive capabilities of the algorithm, shedding light on its potential to accurately classify genres based on the nuanced nuances of audio feature prominence.
+
+Here, the decision tree was structured as such:
+
+1.  **Energy Check:** If the energy level of the song is greater than 0.721, the function classifies it as "pop." This suggests that songs with high energy levels are predominantly associated with the pop genre.
+
+2.  **Popularity and Danceability Check:** If the song's track popularity exceeds 45, a secondary check is initiated. If the danceability of the song surpasses 0.674, it is categorized as "latin." Otherwise, it is classified as "pop." This implies that highly popular songs with elevated danceability are likely to fall into the Latin genre.
+
+3.  **Danceability Check:** If the danceability of the song is greater than 0.674 (but the popularity condition is not met), it is labeled as "r&b." This indicates that songs with high danceability but not necessarily high popularity are inclined towards the R&B genre.
+
+4.  **Valence Check:** If the valence (positivity) of the song exceeds 0.506 (but neither the energy nor danceability conditions are met), the function assigns the genre as "rock." This suggests that songs with a positive emotional tone are associated with the rock genre.
+
+5.  **Default Case:** If none of the above conditions are met, the function defaults to classifying the song as "edm." This serves as a catch-all category for songs that do not meet the specific criteria outlined for the other genres.
+
+Notably, I had initially set the initial default case to classify songs as "pop." However, recognising the overrepresentation of pop songs within the dataset, the default classification was adjusted to "edm" instead. This modification aims to ensure a more balanced and nuanced approach to genre assignment, considering the diversity of the dataset and avoiding a disproportionate bias toward the pop genre.
 
 ```{r, echo = TRUE, eval = TRUE, fig.height = 20, fig.width = 7}
 classify_genre <- function(song) {
@@ -386,7 +330,9 @@ accuracy_predictions <- predictions %>%
 accuracy_predictions
 ```
 
-Since accuracy is quite poor, try on a smaller test set, instead of the whole data-set:
+However, as per the accuracy table above, the percentage accuracy of classification remained to be less than 20%.
+
+To test it again, I tried the predictive algorithm on a smaller test set, instead of the whole data-set.
 
 ```{r, echo = TRUE, eval = TRUE, fig.height = 5, fig.width = 7}
 # trying with a test case of 10 random songs from the spotify_songs dataset
@@ -410,13 +356,23 @@ accuracy_predictions10 <- predictions10 %>%
 accuracy_predictions10
 ```
 
-## Temporal Analysis
+Nevertheless, the rate of accuracy remained quite low at 20%.
 
-Time series plots to show evolution, examine trends in use of specific audio features within different genres - change and continuity. Addition of Shiny UI with findings to be toggle-able for users.
+## Discussion and Conclusion
 
-## Concluding Remarks
+In delving into the exploration of genre classification through audio features, the complexity of the task becomes apparent. The decision tree, chosen for its transparency, is a valuable tool, yet its application to genre classification reveals intricate challenges. The research question at the core of this endeavor --- How Does Genre Classification Work? --- is met with a nuanced response, emphasising the multifaceted nature of music genres and the inherent subjectivity in their definition.
 
-TBC!
+Genre classification encounters complexities stemming from the diverse and evolving nature of musical styles. The decision tree, though structured with careful considerations of energy, popularity, danceability, and valence, grapples with several less quantifiable dynamic and subjective aspects inherent to genre delineation. The challenge lies not only in deciphering the intricate relationships between audio features but also in navigating the fluid boundaries between genres.
+
+Furthermore, the inherent subjectivity in defining genres adds a layer of complexity. Genres are not rigidly defined categories but rather fluid and context-dependent concepts. Individual perceptions, cultural influences, and temporal shifts contribute to the malleability of genre boundaries. Consequently, a single decision tree, while illuminating certain distinctions, may struggle to encapsulate the vast spectrum of musical expression.
+
+The potential interactions among audio features, not fully captured by the decision tree, pose another layer of challenge. Music is a rich tapestry where features intertwine in intricate ways, and their combined effect contributes to the holistic experience of a genre. The decision tree, by nature, compartmentalises these features, potentially overlooking synergies that play a crucial role in genre identification.
+
+Addressing the research question of whether genre classification can be achieved through audio feature classification, the presented decision tree offers valuable insights but falls short of providing a definitive answer. The modest accuracy rates underscore the complexity of the task and hint at the limitations of relying solely on audio features for genre classification.
+
+In conclusion, genre classification proves to be a nuanced and challenging endeavor, influenced by the multifaceted nature of musical expression, the subjectivity inherent in genre definitions, and the intricate interactions among audio features. The decision tree, while illuminating certain aspects, prompts further exploration into more sophisticated methodologies, expanded feature sets, and a deeper integration of domain knowledge.
+
+As the quest for accurate genre classification continues, the intersection of technology, music theory, and human perception remains a fascinating and evolving terrain.
 
 ## References
 

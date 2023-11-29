@@ -1,0 +1,12 @@
+name: 2207dataset_overview
+title: 2207dataset_overview
+username: mjswelise
+account: mjswelise
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10661872
+bundleId: 7983345
+url: https://mjswelise.shinyapps.io/2207dataset_overview/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
