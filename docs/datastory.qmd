@@ -62,8 +62,9 @@ Using ggplot, to get a sensing of the dataset, I then plot the data into graphs 
 
 Find it in my interactive Shiny app below!
 
-\<iframe height="400" width="100%" frameborder="no" src="https://mjswelise.shinyapps.io/2207dataset_overview/"\> \</iframe\>
-
+```{=html}
+<iframe height="800" width="100%" frameborder="no" src="https://mjswelise.shinyapps.io/2207dataset_overview/"> </iframe>
+```
 ## Defining Genre
 
 In my quest to determine what makes a 'genre', I first condensed the data-sets 'by year' from YYYY-MM-DD. Here, I found that there was an insufficient population size of songs from before 1966 (i.e. \<30 instances), and chose to filter the data that way to ensure a more accurate output from my dataset.
